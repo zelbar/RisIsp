@@ -1,4 +1,4 @@
-﻿{
+{
   "dependencies": {
     "Microsoft.NETCore.App": {
       "version": "1.0.1",
@@ -20,7 +20,13 @@
     "Microsoft.Extensions.Logging.Console": "1.0.0",
     "Microsoft.Extensions.Logging.Debug": "1.0.0",
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
-    "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0"
+    "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0",
+    "Npgsql": "3.2.2",
+    "Dapper": "1.50.2",
+    "RisIsp.Bll": "1.0.0-*",
+    "RisIsp.Dal": "1.0.0-*",
+    "RisIsp.Models": "1.0.0-*",
+    "RisIsp.CoreLib": "1.0.0-*"
   },
 
   "tools": {

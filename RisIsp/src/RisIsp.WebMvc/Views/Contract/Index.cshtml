@@ -1,0 +1,55 @@
+﻿@model RisIsp.WebMvc.ViewModels.ContractIndexViewModel
+
+@{ 
+    ViewBag.Title = "Ugovori";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <td>
+                Id
+            </td>
+            <td>
+                Datum potpisivanja
+            </td>
+            <td>
+                Korisnik
+            </td>
+            <td>
+                Adresa
+            </td>
+            <td>
+
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var contract in Model.Contracts)
+        {
+            <tr>
+                <td>
+                    @contract.Id
+                </td>
+                <td>
+                    @contract.SignDate
+                </td>
+                <td>
+                    @contract.Customer.FormalFullName
+                </td>
+                <td>
+                    @contract.Address.FullAddress
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@contract.Id" class="btn btn-default">
+                        <span class="glyphicon glyphicon-edit"></span> 
+                        Uredi
+                    </a>
+                </td>
+            </tr>
+
+        }
+    </tbody>
+</table>

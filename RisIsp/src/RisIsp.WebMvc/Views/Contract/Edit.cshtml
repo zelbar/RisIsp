@@ -1,0 +1,71 @@
+﻿@model RisIsp.WebMvc.ViewModels.ContractEditViewModel
+
+@{ 
+    ViewBag.Title = "Uredi ugovor";
+}
+
+<h2>@ViewBag.Title <strong>@Model.Contract.Id</strong></h2>
+
+<div>
+    <fieldset class="col-md-4">
+        <legend>Vlasnik priključka</legend>
+
+        <div>
+            <label asp-for="Contract.Customer.FirstName" class="control-label"></label>
+            <input asp-for="Contract.Customer.FirstName" class="form-control" />
+        </div>
+
+        <div>
+            <label asp-for="Contract.Customer.LastName" class="control-label"></label>
+            <input asp-for="Contract.Customer.LastName" class="form-control" />
+        </div>
+    </fieldset>
+    <fieldset class="col-md-8">
+        <legend>Adresa priključka usluge</legend>
+
+        <div>
+            <label asp-for="Contract.Address.AreaCode" class="control-label"></label>
+            <input asp-for="Contract.Address.AreaCode" class="form-control" />
+        </div>
+
+        <div>
+            <label asp-for="Contract.Address.StreetName" class="control-label"></label>
+            <input asp-for="Contract.Address.StreetName" class="form-control" />
+        </div>
+
+        <div>
+            <label asp-for="Contract.Address.StreetNumber" class="control-label"></label>
+            <input asp-for="Contract.Address.StreetNumber" class="form-control" />
+        </div>
+    </fieldset>
+
+    <table>
+        <thead>
+            <tr>
+                <td>
+                    Vrsta usluge
+                </td>
+                <td>
+                    Paket usluge
+                </td>
+                <td>
+                    Cijena paketa
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var service in Model.Services)
+            {
+                <tr>
+                    <td>
+                        @service.Category
+                    </td>
+                    <td>
+                        @Model.Contract.
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+</div>
