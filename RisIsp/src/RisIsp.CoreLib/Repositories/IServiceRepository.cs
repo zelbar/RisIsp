@@ -7,8 +7,7 @@ using RisIsp.CoreLib.Dto;
 
 namespace RisIsp.CoreLib.Repositories
 {
-    public interface IAddressRepository : IRepository<int, Address>
+    public interface IServiceRepository : IRepository<int, Service>
     {
-        IEnumerable<int> GetAreaCodes();
     }
 }

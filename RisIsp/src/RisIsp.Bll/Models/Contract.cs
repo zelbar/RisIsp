@@ -26,5 +26,7 @@ namespace RisIsp.Bll.Models
         public Customer Customer { get; set; }
 
         public DateTime SignDate { get; set; }
+
+        public IEnumerable<ServicePackage> ServicePackages { get; set; }
     }
 }

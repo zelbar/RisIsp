@@ -11,7 +11,7 @@ namespace RisIsp.CoreLib.Dto
 
         public string Name { get; set; }
 
-        public decimal MonthlyCost { get; set; }
+        public decimal MonthlyPrice { get; set; }
         
         public int ServiceId { get; set; }
     }

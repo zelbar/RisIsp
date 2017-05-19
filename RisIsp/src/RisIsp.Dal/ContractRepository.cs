@@ -17,6 +17,12 @@ namespace RisIsp.Dal
 
         }
 
+        public int GetNumberOfContracts()
+        {
+            var cnt = _db.QuerySingle<int>("SELECT COUNT(*) FROM contract;");
+            return cnt;
+        }
+
         Contract IRepository<int, Contract>.Add(Contract item)
         {
             var rv = _db.QueryFirst<Contract>(

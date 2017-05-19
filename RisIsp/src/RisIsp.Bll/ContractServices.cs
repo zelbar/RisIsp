@@ -15,15 +15,28 @@ namespace RisIsp.Bll
         private readonly IAddressRepository _addressRepository;
         private readonly IContractRepository _contractRepository;
         private readonly ICustomerRepository _customerRepository;
+        private readonly IServiceRepository _serviceRepository;
+        private readonly IServicePackageRepository _servicePackageRepository;
 
         public ContractServices(
             AddressRepository addressRepository,
             ContractRepository contractRepository, 
-            CustomerRepository customerRepository)
+            CustomerRepository customerRepository,
+            ServiceRepository serviceRepository,
+            ServicePackageRepository servicePackageRepository)
         {
             _addressRepository = addressRepository;
             _contractRepository = contractRepository;
             _customerRepository = customerRepository;
+            _serviceRepository = serviceRepository;
+            _servicePackageRepository = servicePackageRepository;
+            
+        }
+
+        public int GetNumberOfContracts()
+        {
+            var cnt = _contractRepository.GetNumberOfContracts();
+            return cnt;
         }
 
         public IEnumerable<Bll.Models.Contract> GetAll()

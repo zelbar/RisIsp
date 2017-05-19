@@ -8,6 +8,15 @@ namespace RisIsp.Bll.Models
 {
     public class Service
     {
+        public Service() { }
+
+        public Service(CoreLib.Dto.Service service)
+        {
+            Id = service.Id;
+            Category = service.Category;
+            Description = service.Description;
+        }
+
         public int Id { get; set; }
 
         [Required]

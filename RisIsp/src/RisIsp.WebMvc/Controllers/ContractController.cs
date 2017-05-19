@@ -19,6 +19,7 @@ namespace RisIsp.WebMvc.Controllers
         private readonly AddressServices _addressServices;
         private readonly ContractServices _contractServices;
         private readonly CustomerServices _customerServices;
+        private readonly ServiceServices _serviceServices;
 
         public ContractController(IConfiguration configuration)
         {
@@ -27,11 +28,16 @@ namespace RisIsp.WebMvc.Controllers
             var addressRepository = new AddressRepository(_db);
             var contractRepository = new ContractRepository(_db);
             var customerRepository = new CustomerRepository(_db);
+            var serviceRepository = new ServiceRepository(_db);
+            var servicePackageRepository = new ServicePackageRepository(_db);
 
             _addressServices = new AddressServices(addressRepository);
             _contractServices = new ContractServices(addressRepository, 
-                contractRepository, customerRepository);
+                contractRepository, customerRepository, serviceRepository, 
+                servicePackageRepository);
             _customerServices = new CustomerServices(customerRepository);
+            _serviceServices = new ServiceServices(serviceRepository,
+                servicePackageRepository);
 
         }
 
@@ -51,9 +57,13 @@ namespace RisIsp.WebMvc.Controllers
         {
             var model = new ContractEditViewModel()
             {
-                Addresses = _addressServices.GetAll(),
+                Addresses = _addressServices.GetAllAddresses(),
+                AreaCodes = _addressServices.GetAreaCodes(),
                 Customers = _customerServices.GetAll(),
-                Contract = _contractServices.GetById(id)
+                Contract = _contractServices.GetById(id),
+                NumberOfContracts = _contractServices.GetNumberOfContracts(),
+                Services = _serviceServices.GetAllServices(),
+                ServicePackages = _serviceServices.GetAllServicePackages()
             };
 
             return View(model);

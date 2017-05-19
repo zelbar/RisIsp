@@ -18,7 +18,13 @@ namespace RisIsp.Bll
             _addressRepository = addressRepository;
         }
 
-        public IEnumerable<Bll.Models.Address> GetAll()
+        public IEnumerable<int> GetAreaCodes()
+        {
+            var rv = _addressRepository.GetAreaCodes();
+            return rv;
+        }
+
+        public IEnumerable<Bll.Models.Address> GetAllAddresses()
         {
             var addresses = _addressRepository.FetchAll();
             var rv = new List<Bll.Models.Address>();

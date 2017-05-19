@@ -9,5 +9,6 @@ namespace RisIsp.CoreLib.Repositories
 {
     public interface IContractRepository : IRepository<int, Contract>
     {
+        int GetNumberOfContracts();
     }
 }

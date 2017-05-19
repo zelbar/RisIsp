@@ -17,6 +17,12 @@ namespace RisIsp.Dal
 
         }
 
+        public IEnumerable<int> GetAreaCodes()
+        {
+            var rv = _db.Query<int>("SELECT DISTINCT areacode FROM address;");
+            return rv;
+        }
+
         Address IRepository<int, Address>.Add(Address item)
         {
             var rv = _db.QueryFirst<Address>(
