@@ -31,6 +31,12 @@ namespace RisIsp.Dal
             return rv;
         }
 
+        public IEnumerable<ServicePackage> FetchByContractId(int id)
+        {
+            var rv = _db.Query<ServicePackage>("SELECT servicepackage.* FROM servicepackage JOIN contract_servicepackage ON servicepackage.id = contract_servicepackage.servicepackageid WHERE contractid = @Id", new { Id = id });
+            return rv;
+        }
+
         public ServicePackage FetchById(int id)
         {
             var rv = _db.QueryFirst<ServicePackage>("SELECT * FROM servicepackage WHERE id = @Id;",

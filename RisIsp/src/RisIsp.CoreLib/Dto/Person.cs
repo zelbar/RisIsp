@@ -7,7 +7,7 @@ namespace RisIsp.CoreLib.Dto
 {
     public class Person
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         public string FirstName { get; set; }
 

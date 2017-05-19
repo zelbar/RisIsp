@@ -34,7 +34,7 @@ namespace RisIsp.Dal
         Address IRepository<int, Address>.Edit(Address item)
         {
             var rv = _db.QueryFirst<Address>(
-                "UPDATE address SET areacode = @AreaCode AND streetname = @StreetName AND streetnumber = @StreetNumber WHERE id = @Id RETURNING *;",
+                "UPDATE address SET areacode = @AreaCode, streetname = @StreetName, streetnumber = @StreetNumber WHERE id = @Id RETURNING *;",
                 new { item.AreaCode, item.StreetName, item.StreetNumber });
             return rv;
         }

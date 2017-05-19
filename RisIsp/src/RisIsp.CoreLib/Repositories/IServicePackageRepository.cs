@@ -9,5 +9,6 @@ namespace RisIsp.CoreLib.Repositories
 {
     public interface IServicePackageRepository : IRepository<int, ServicePackage>
     {
+        IEnumerable<ServicePackage> FetchByContractId(int id);
     }
 }

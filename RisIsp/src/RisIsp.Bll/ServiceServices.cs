@@ -28,7 +28,7 @@ namespace RisIsp.Bll
 
             foreach(var service in services)
             {
-                rv.Add(new Models.Service(service));
+                rv.Add(new Bll.Models.Service(service));
             }
 
             return rv;
@@ -42,11 +42,7 @@ namespace RisIsp.Bll
             foreach(var sp in servicePackages)
             {
                 var service = _serviceRepository.FetchById(sp.ServiceId);
-                var bllSp = new Bll.Models.ServicePackage(sp)
-                {
-                    Service = new Bll.Models.Service(service)
-                };
-
+                var bllSp = new Bll.Models.ServicePackage(sp, service);
                 rv.Add(bllSp);
             }
             return rv;

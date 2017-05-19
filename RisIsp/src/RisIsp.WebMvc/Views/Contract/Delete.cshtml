@@ -1,0 +1,20 @@
+﻿@model RisIsp.Bll.Models.Contract
+
+@{ 
+    ViewBag.Title = "Brisanje ugovora " + Model.Id;
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="alert alert-warning">
+    <span class="glyphicon glyphicon-warning-sign"></span> 
+    Želite li zaista pobrisati ugovor?
+</div>
+
+@Html.Partial("_Details", Model)
+
+<form method="post" asp-action="ConfirmDelete" asp-route-id="@Model.Id">
+    <button type="submit" class="btn btn-danger">
+        Pobriši
+    </button>
+</form>

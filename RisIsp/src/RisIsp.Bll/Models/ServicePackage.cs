@@ -11,11 +11,12 @@ namespace RisIsp.Bll.Models
     {
         public ServicePackage() { }
 
-        public ServicePackage(CoreLib.Dto.ServicePackage servicePackage)
+        public ServicePackage(CoreLib.Dto.ServicePackage servicePackage, CoreLib.Dto.Service service)
         {
             Id = servicePackage.Id;
             Name = servicePackage.Name;
             MonthlyPrice = servicePackage.MonthlyPrice;
+            Service = new Models.Service(service);
         }
 
         public int Id { get; set; }

@@ -11,12 +11,21 @@ namespace RisIsp.Bll.Models
         public Contract() { }
 
         public Contract(CoreLib.Dto.Contract contract, 
-            CoreLib.Dto.Address address, CoreLib.Dto.Customer customer)
+            CoreLib.Dto.Address address, CoreLib.Dto.Customer customer,
+            IEnumerable<CoreLib.Dto.ServicePackage> servicePackages, 
+            IEnumerable<CoreLib.Dto.Service> services)
         {
             Id = contract.Id;
             Address = new Address(address);
             Customer = new Customer(customer);
             SignDate = contract.SignDate;
+
+            var spList = new List<Bll.Models.ServicePackage>();
+            foreach(var sp in servicePackages)
+            {
+                spList.Add(new ServicePackage(sp, services.First(x => x.Id == sp.ServiceId)));
+            }
+            ServicePackages = spList;
         }
 
         public int Id { get; set; }
@@ -27,6 +36,6 @@ namespace RisIsp.Bll.Models
 
         public DateTime SignDate { get; set; }
 
-        public IEnumerable<ServicePackage> ServicePackages { get; set; }
+        public IEnumerable<Bll.Models.ServicePackage> ServicePackages { get; set; }
     }
 }

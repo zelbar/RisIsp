@@ -26,7 +26,7 @@ namespace RisIsp.Dal
         Contract IRepository<int, Contract>.Add(Contract item)
         {
             var rv = _db.QueryFirst<Contract>(
-                "INSERT INTO contract(addressid, signdate, customerid) VALUES(@AddressId, @SignDate, @CustomerId) RETURNING id, firstname, lastname;", 
+                "INSERT INTO contract(addressid, signdate, customerid) VALUES(@AddressId, @SignDate, @CustomerId) RETURNING *;", 
                 new { AddressId = item.AddressId, SignDate = item.SignDate, CustomerId = item.CustomerId });
             return rv;
         }
@@ -34,7 +34,7 @@ namespace RisIsp.Dal
         Contract IRepository<int, Contract>.Edit(Contract item)
         {
             var rv = _db.QueryFirst<Contract>(
-                "UPDATE person SET firstname = @FirstName AND lastname = @LastName WHERE id = @Id RETURNING id, firstname, lastname;",
+                "UPDATE contract SET addressid = @AddressId, customerid = @CustomerId, signdate = @SignDate WHERE id = @Id RETURNING *;",
                 new { AddressId = item.AddressId, SignDate = item.SignDate, CustomerId = item.CustomerId });
             return rv;
         }
@@ -54,7 +54,7 @@ namespace RisIsp.Dal
 
         Contract IRepository<int, Contract>.Remove(int id)
         {
-            var rv = _db.QueryFirst<Contract>("DELETE FROM contract WHERE id = @Id RETURNING id, firstname, lastname;",
+            var rv = _db.QueryFirst<Contract>("DELETE FROM contract_servicepackage WHERE contractid = @Id; DELETE FROM contract WHERE id = @Id RETURNING *;",
                 new { Id = id });
             return rv;
         }

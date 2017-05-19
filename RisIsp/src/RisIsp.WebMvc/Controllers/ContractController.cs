@@ -53,9 +53,42 @@ namespace RisIsp.WebMvc.Controllers
         }
 
         // GET: /Contract/Edit/1
+        [HttpGet]
         public IActionResult Edit(int id)
         {
-            var model = new ContractEditViewModel()
+            var model = getContractEditViewModel(id);
+            return View(model);
+        }
+
+        // POST: /Contract/Edit/1
+        [HttpPost]
+        public IActionResult Edit(ContractEditViewModel request)
+        {
+            var contract = request.Contract;
+            _contractServices.Update(contract);
+            var model = getContractEditViewModel(contract.Id);
+            return View(model);
+        }
+
+        // GET: /Contract/Delete/1
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            var model = getContractEditViewModel(id).Contract;
+            return View(model);
+        }
+
+        // POST: /Contract/ConfirmDelete/1
+        [HttpPost]
+        public IActionResult ConfirmDelete(int id)
+        {
+            _contractServices.Delete(id);
+            return RedirectToAction("Index");
+        }
+
+        private ContractEditViewModel getContractEditViewModel(int id)
+        {
+            return new ContractEditViewModel()
             {
                 Addresses = _addressServices.GetAllAddresses(),
                 AreaCodes = _addressServices.GetAreaCodes(),
@@ -65,8 +98,7 @@ namespace RisIsp.WebMvc.Controllers
                 Services = _serviceServices.GetAllServices(),
                 ServicePackages = _serviceServices.GetAllServicePackages()
             };
-
-            return View(model);
         }
+
     }
 }

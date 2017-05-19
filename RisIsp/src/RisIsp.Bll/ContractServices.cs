@@ -48,7 +48,10 @@ namespace RisIsp.Bll
             {
                 var address = _addressRepository.FetchById(contract.AddressId);
                 var customer = _customerRepository.FetchById(contract.CustomerId);
-                var bllContract = new Bll.Models.Contract(contract, address, customer);
+                var servicePackages = _servicePackageRepository.FetchByContractId(contract.Id);
+                var services = _serviceRepository.FetchAll();
+
+                var bllContract = new Bll.Models.Contract(contract, address, customer, servicePackages, services);
                 rv.Add(bllContract);
             }
 
@@ -60,9 +63,48 @@ namespace RisIsp.Bll
             var dtoContract = _contractRepository.FetchById(id);
             var contract = new Bll.Models.Contract(dtoContract,
                 _addressRepository.FetchById(dtoContract.AddressId),
-                _customerRepository.FetchById(dtoContract.CustomerId)
+                _customerRepository.FetchById(dtoContract.CustomerId),
+                _servicePackageRepository.FetchByContractId(dtoContract.Id),
+                _serviceRepository.FetchAll()
                 );
             return contract;
+        }
+
+        public Bll.Models.Contract Update(Bll.Models.Contract contract)
+        {
+            var dalContract = new CoreLib.Dto.Contract()
+            {
+                Id = contract.Id,
+                AddressId = contract.Address.Id,
+                CustomerId = contract.Customer.Id,
+                SignDate = contract.SignDate
+            };
+            _contractRepository.Edit(dalContract);
+
+            var dalAddress = new CoreLib.Dto.Address()
+            {
+                Id = contract.Address.Id,
+                AreaCode = contract.Address.AreaCode,
+                StreetName = contract.Address.StreetName,
+                StreetNumber = contract.Address.StreetNumber
+            };
+            _addressRepository.Edit(dalAddress);
+
+            var dalCustomer = new CoreLib.Dto.Customer()
+            {
+                Id = contract.Customer.Id,
+                FirstName = contract.Customer.FirstName,
+                LastName = contract.Customer.LastName
+            };
+            _customerRepository.Edit(dalCustomer);
+
+
+            return GetById(contract.Id);
+        }
+
+        public void Delete(int id)
+        {
+            _contractRepository.Remove(id);
         }
     }
 }

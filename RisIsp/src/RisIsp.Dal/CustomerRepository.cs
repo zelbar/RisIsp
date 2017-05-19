@@ -28,7 +28,7 @@ namespace RisIsp.Dal
         Customer IRepository<int, Customer>.Edit(Customer item)
         {
             var rv = _db.QueryFirst<Customer>(
-                "UPDATE person SET firstname = @FirstName AND lastname = @LastName WHERE id = @Id RETURNING id, firstname, lastname;", 
+                "UPDATE person SET firstname = @FirstName, lastname = @LastName WHERE id = @Id RETURNING id, firstname, lastname;", 
                 new { Id = item.Id, FirstName = item.FirstName, LastName = item.LastName });
             return rv;
         }

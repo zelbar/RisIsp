@@ -5,52 +5,58 @@
 }
 
 <form asp-action="Edit" asp-route-id="@Model.Contract.Id" method="post">
+    <input type="hidden" asp-for="Contract.Id" />
     <div class="page-header">
 
-        <div class="pull-right">
-            <ul class="pagination">
-                <li @if (Model.Contract.Id == 1) { <text> class="disabled" </text>   }>
-                    <a asp-action="Edit" asp-route-id="@(Model.Contract.Id - 1)">
-                        <span class="glyphicon glyphicon-arrow-left"></span>
-                        Prethodni
-                    </a>
-                </li>
-                @for (int id = 1; id <= Model.NumberOfContracts; ++id)
+        <ul class="pagination">
+            <li @if (Model.Contract.Id == 1) { <text> class="disabled" </text>    }>
+                <a asp-action="Edit" asp-route-id="@(Model.Contract.Id - 1)">
+                    <span class="glyphicon glyphicon-arrow-left"></span>
+                    Prethodni
+                </a>
+            </li>
+            @for (int id = 1; id <= Model.NumberOfContracts; ++id)
+            {
+                if (id == Model.Contract.Id)
                 {
-                    if (id == Model.Contract.Id)
-                    {
-                            <li class="active"><a href="#">@id</a></li>
+                    <li class="active"><a href="#">@id</a></li>
 
-                        }
-                        else
-                        {
-                            <li><a asp-action="Edit" asp-route-id="@id">@id</a></li>
+                }
+                else
+                {
+                    <li><a asp-action="Edit" asp-route-id="@id">@id</a></li>
 
-                        }
+                }
 
-                    }
-                    <li @if (Model.Contract.Id == Model.NumberOfContracts) { <text> class="disabled" </text>   }>
-                        <a asp-action="Edit" asp-route-id="@(Model.Contract.Id + 1)">
-                            Sljedeći
-                            <span class="glyphicon glyphicon-arrow-right"></span>
-                        </a>
-                    </li>
-                </ul>
+            }
+            <li @if (Model.Contract.Id == Model.NumberOfContracts) { <text> class="disabled" </text>    }>
+                <a asp-action="Edit" asp-route-id="@(Model.Contract.Id + 1)">
+                    Sljedeći
+                    <span class="glyphicon glyphicon-arrow-right"></span>
+                </a>
+            </li>
+        </ul>
 
-                <div class="left">
-                    <button type="submit" class="btn btn-primary">
-                        <span class="glyphicon glyphicon-floppy-save"></span>
-                        Pohrani
-                    </button>
-                </div>
+
+            <div class="btn-group pull-right">
+                <button type="submit" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-floppy-save"></span>
+                    Pohrani
+                </button>
+
+                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.Contract.Id">
+                    <span class="glyphicon glyphicon-remove"></span>
+                    Obriši
+                </a>
             </div>
-            <h2>@ViewBag.Title <strong>@Model.Contract.Id</strong></h2>
         </div>
+        <h2>@ViewBag.Title <strong>@Model.Contract.Id</strong></h2>
 
         <div class="">
             <fieldset class="col-md-4">
                 <legend>Vlasnik priključka</legend>
 
+                <input type="hidden" asp-for="Contract.Customer.Id" />
                 <div>
                     <label asp-for="Contract.Customer.FirstName" class="control-label"></label>
                     <input asp-for="Contract.Customer.FirstName" class="form-control" />
@@ -64,6 +70,7 @@
             <fieldset class="col-md-8">
                 <legend>Adresa priključka usluge</legend>
 
+                <input type="hidden" asp-for="Contract.Address.Id" />
                 <div class="col-sm-4">
                     @{
                         var areaCodesSelectList = new SelectList(Model.AreaCodes);
@@ -86,8 +93,8 @@
                 </div>
 
                 <div class="col-sm-12">
-                    <label class="control-label"></label>
-                    <input type="hidden" />
+                    <label class="control-label">Datum sklapanja ugovora</label>
+                    <input type="date" asp-for="Contract.SignDate" class="form-control" />
                 </div>
             </fieldset>
         </div>
@@ -112,15 +119,15 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var service in Model.Contract.ServicePackages.Select(x => x.Service))
+                @foreach (var servicePackage in Model.Contract.ServicePackages)
                 {
                     <tr>
                         <td>
-                            @service.Category
+                            @servicePackage.Service.Category
                         </td>
                         <td>
                             @{
-                                var servicePackagesSelectList = new SelectList(Model.ServicePackages.Where(x => x.Service.Id == service.Id), null, "NameAndMonthlyPrice");
+                                var servicePackagesSelectList = new SelectList(Model.ServicePackages.Where(x => x.Service.Id == servicePackage.Service.Id), null, "NameAndMonthlyPrice");
                             }
                             <select asp-items="@servicePackagesSelectList" class="form-control"></select>
                         </td>

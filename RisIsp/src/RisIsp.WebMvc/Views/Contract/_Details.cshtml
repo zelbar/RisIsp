@@ -1,0 +1,28 @@
+﻿@model RisIsp.Bll.Models.Contract
+
+<table class="table table-bordered table-hover">
+    <tr>
+        <th>Vlasnik priključka</th>
+        <td>
+            @Model.Customer.FormalFullName
+        </td>
+    </tr>
+    <tr>
+        <th>Adresa priključka</th>
+        <td>
+            @Model.Address.FullAddress
+        </td>
+    </tr>
+    <tr>
+        <th>Paketi usluga</th>
+        <td>
+            <ul>
+                @foreach (var sp in Model.ServicePackages)
+                {
+                    <li>@sp.NameAndMonthlyPrice</li>
+
+                }
+            </ul>
+        </td>
+    </tr>
+</table>

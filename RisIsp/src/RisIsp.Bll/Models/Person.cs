@@ -8,7 +8,7 @@ namespace RisIsp.Bll.Models
 {
     public class Person
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [Display(Name = "Ime")]
