@@ -76,7 +76,8 @@ namespace RisIsp.Bll
             return contract;
         }
 
-        public Bll.Models.Contract Create(Bll.Models.Contract contract)
+        public Bll.Models.Contract Create(Bll.Models.Contract contract,
+            IEnumerable<int> servicePackageIds)
         {
             var dalAddress = new CoreLib.Dto.Address()
             {
@@ -93,7 +94,7 @@ namespace RisIsp.Bll
                 NumberOfId = contract.Customer.NumberOfId
             };
             var customerId = _customerRepository.Add(dalCustomer).Id;
-
+            
             var dalContract = new CoreLib.Dto.Contract()
             {
                 AddressId = addressId,
@@ -102,12 +103,15 @@ namespace RisIsp.Bll
             };
             var rv = _contractRepository.Add(dalContract);
 
+            _contractRepository.UpdateServicePackages(rv.Id, servicePackageIds);
+
             return new Models.Contract(rv, dalAddress, dalCustomer, 
                 _servicePackageRepository.FetchByContractId(rv.Id), 
                 _serviceRepository.FetchAll());
         }
 
-        public Bll.Models.Contract Update(Bll.Models.Contract contract)
+        public Bll.Models.Contract Update(Bll.Models.Contract contract,
+            IEnumerable<int> servicePackageIds)
         {
             var dalContract = new CoreLib.Dto.Contract()
             {
@@ -135,7 +139,7 @@ namespace RisIsp.Bll
                 NumberOfId = contract.Customer.NumberOfId
             };
             _customerRepository.Edit(dalCustomer);
-
+            _contractRepository.UpdateServicePackages(contract.Id, servicePackageIds);
 
             return GetById(contract.Id);
         }

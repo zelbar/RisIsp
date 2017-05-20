@@ -62,10 +62,18 @@ namespace RisIsp.WebMvc.Controllers
 
         // POST: /Contract/Create
         [HttpPost]
-        public IActionResult Create(ContractEditorViewModel request)
+        public IActionResult Create(ContractEditorViewModel request, IEnumerable<int> servicePackageIds)
         {
             var contract = request.Contract;
-            var rv = _contractServices.Create(contract);
+
+            var sps = new List<ServicePackage>();
+            foreach (var spid in servicePackageIds)
+            {
+                sps.Add(new ServicePackage() { Id = spid });
+            }
+            contract.ServicePackages = sps;
+
+            var rv = _contractServices.Create(contract, servicePackageIds);
             return RedirectToAction("Edit", new { Id = rv.Id });
         }
 
@@ -79,10 +87,18 @@ namespace RisIsp.WebMvc.Controllers
 
         // POST: /Contract/Edit/1
         [HttpPost]
-        public IActionResult Edit(ContractEditorViewModel request)
+        public IActionResult Edit(ContractEditorViewModel request, IEnumerable<int> servicePackageIds)
         {
             var contract = request.Contract;
-            _contractServices.Update(contract);
+
+            var sps = new List<ServicePackage>();
+            foreach(var spid in servicePackageIds)
+            {
+                sps.Add(new ServicePackage() { Id = spid });
+            }
+            contract.ServicePackages = sps;
+
+            _contractServices.Update(contract, servicePackageIds);
             var model = getContractEditViewModel(contract.Id);
             return View(model);
         }
@@ -101,6 +117,12 @@ namespace RisIsp.WebMvc.Controllers
         {
             _contractServices.Delete(id);
             return RedirectToAction("Index");
+        }
+
+        // GET: /Contract/ServicePackages
+        public IActionResult ServicePackages()
+        {
+            return new JsonResult(_serviceServices.GetAllServicePackages());
         }
 
         private ContractEditorViewModel getContractEditViewModel(int? id)

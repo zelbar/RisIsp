@@ -11,5 +11,8 @@ namespace RisIsp.CoreLib.Repositories
     {
         int GetNumberOfContracts();
         IEnumerable<int> GetContractIds();
+
+        void UpdateServicePackages(
+            int contractId, IEnumerable<int> servicePackageIds);
     }
 }

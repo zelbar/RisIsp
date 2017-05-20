@@ -60,9 +60,21 @@ namespace RisIsp.Dal
 
         Contract IRepository<int, Contract>.Remove(int id)
         {
-            var rv = _db.QueryFirst<Contract>("DELETE FROM contract_servicepackage WHERE contractid = @Id; DELETE FROM contract WHERE id = @Id RETURNING *;",
+            var rv = _db.QueryFirst<Contract>("BEGIN WORK; DELETE FROM contract_servicepackage WHERE contractid = @Id; DELETE FROM contract WHERE id = @Id RETURNING *; COMMIT WORK;",
                 new { Id = id });
             return rv;
+        }
+
+        public void UpdateServicePackages(int contractId,
+            IEnumerable<int> servicePackageIds)
+        {
+            _db.Execute("DELETE FROM contract_servicepackage WHERE contractid = @Id;",
+                new { Id = contractId });
+            foreach(var id in servicePackageIds)
+            {
+                _db.Execute("INSERT INTO contract_servicepackage(servicepackageid, contractid) VALUES(@ServicePackageId, @ContractId);",
+                    new { ServicePackageId = id, ContractId = contractId });
+            }
         }
     }
 }

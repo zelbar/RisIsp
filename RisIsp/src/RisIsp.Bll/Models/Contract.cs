@@ -37,5 +37,13 @@ namespace RisIsp.Bll.Models
         public DateTime SignDate { get; set; }
 
         public IEnumerable<Bll.Models.ServicePackage> ServicePackages { get; set; }
+
+        //public decimal TotalMonthlyPrice
+        //{
+        //    get
+        //    {
+        //        return ServicePackages.Sum(x => x.MonthlyPrice);
+        //    }
+        //}
     }
 }
