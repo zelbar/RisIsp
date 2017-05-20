@@ -38,12 +38,19 @@ namespace RisIsp.Bll.Models
 
         public IEnumerable<Bll.Models.ServicePackage> ServicePackages { get; set; }
 
-        //public decimal TotalMonthlyPrice
-        //{
-        //    get
-        //    {
-        //        return ServicePackages.Sum(x => x.MonthlyPrice);
-        //    }
-        //}
+        public decimal TotalMonthlyPrice
+        {
+            get
+            {
+                try
+                {
+                    return ServicePackages.Sum(x => x.MonthlyPrice);
+                }
+                catch (Exception)
+                {
+                    return 0;
+                }
+            }
+        }
     }
 }

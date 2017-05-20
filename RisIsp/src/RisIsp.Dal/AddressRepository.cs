@@ -19,13 +19,13 @@ namespace RisIsp.Dal
 
         public IEnumerable<int> GetAreaCodes()
         {
-            var rv = _db.Query<int>("SELECT DISTINCT areacode FROM address;");
+            var rv = _db.Query<int>("SELECT DISTINCT areacode FROM address ORDER BY areacode ASC;");
             return rv;
         }
 
         public IEnumerable<string> GetStreetNames()
         {
-            var rv = _db.Query<string>("SELECT DISTINCT streetname FROM address;");
+            var rv = _db.Query<string>("SELECT DISTINCT streetname FROM address ORDER BY streetname ASC;");
             return rv;
         }
 

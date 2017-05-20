@@ -2,7 +2,7 @@
 
 @{
     var serviceSelect = new SelectList(Model.Services, "Id", "Category");
-    var servicePackageSelect = new SelectList(Model.ServicePackages, "Id", "NameAndMonthlyPrice");
+    var servicePackageSelect = new SelectList(Model.ServicePackages, "Id", "Name");
 }
 
     <div class="">
@@ -85,27 +85,35 @@
                         Paket usluge
                     </td>
                     <td>
+                        Mjesečna cijena paketa
+                    </td>
+                    <td>
 
                     </td>
                 </tr>
             </thead>
             <tbody>
+                @{ var idx = 0; }
                 @foreach (var servicePackage in Model.Contract.ServicePackages)
                 {
                     <tr>
                         <td>
-                            <select asp-items="serviceSelect" class="form-control"></select>
+                            @servicePackage.Service.Category
                         </td>
                         <td>
-                            <select asp-for="@servicePackage.Id" asp-items="@servicePackageSelect" class="form-control package"></select>
+                            <select asp-for="@servicePackage.Id" id="" name="servicePackageIds[@idx]" asp-items="@servicePackageSelect" class="form-control package"></select>
+                        </td>
+                        <td>
+                            @servicePackage.MonthlyPrice
                         </td>
                         <td>
                             <button type="button" class="btn btn-sm btn-danger">
-                                <span class="glyphicon glyphicon-remove"></span>
+                                <span class="glyphicon glyphicon-remove"></span> 
+                                Ukloni
                             </button>
                         </td>
                     </tr>
-
+                    { ++idx; }
                 }
             </tbody>
             <tfoot>
@@ -120,18 +128,24 @@
                 </tr>
                 <tr class="hidden">
                     <td>
-                        <select asp-items="@serviceSelect" class="form-control"></select>
+                        ---
                     </td>
                     <td>
                         <select asp-items="@servicePackageSelect" class="form-control package"></select>
                     </td>
                     <td>
+                        ---
+                    </td>
+                    <td>
                         <button type="button" class="btn btn-sm btn-danger">
-                            <span class="glyphicon glyphicon-remove"></span>
+                            <span class="glyphicon glyphicon-remove"></span> 
+                            Ukloni
                         </button>
                     </td>
                 </tr>
             </tfoot>
         </table>
+
+        Ukupno mjesečno @Model.Contract.TotalMonthlyPrice
 
     </fieldset>

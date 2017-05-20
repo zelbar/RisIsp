@@ -21,7 +21,13 @@ $(document).ready(function () {
             $(evt.target).closest('tr').remove();
             reIndex();
         });
+        var service = $('#services tbody select.service');
 
+        $(service).on('change', function (evt) {
+            var packages = $('#services tbody select.package');
+            packages.empty();
+
+        });
     }
 
     reStart();

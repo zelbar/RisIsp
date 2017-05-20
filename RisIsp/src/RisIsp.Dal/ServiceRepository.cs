@@ -27,7 +27,7 @@ namespace RisIsp.Dal
 
         public IEnumerable<Service> FetchAll()
         {
-            var rv = _db.Query<Service>("SELECT * FROM service;");
+            var rv = _db.Query<Service>("SELECT * FROM service ORDER BY category ASC;");
             return rv;
         }
 
