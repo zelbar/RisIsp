@@ -24,6 +24,12 @@ namespace RisIsp.Bll
             return rv;
         }
 
+        public IEnumerable<string> GetStreetNames()
+        {
+            var rv = _addressRepository.GetStreetNames();
+            return rv;
+        }
+
         public IEnumerable<Bll.Models.Address> GetAllAddresses()
         {
             var addresses = _addressRepository.FetchAll();

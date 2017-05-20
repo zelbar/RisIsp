@@ -10,5 +10,6 @@ namespace RisIsp.CoreLib.Repositories
     public interface IAddressRepository : IRepository<int, Address>
     {
         IEnumerable<int> GetAreaCodes();
+        IEnumerable<string> GetStreetNames();
     }
 }

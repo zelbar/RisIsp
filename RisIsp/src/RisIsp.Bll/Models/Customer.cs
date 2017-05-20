@@ -15,6 +15,7 @@ namespace RisIsp.Bll.Models
             Id = customer.Id;
             FirstName = customer.FirstName;
             LastName = customer.LastName;
+            NumberOfId = customer.NumberOfId;
         }
     }
 }

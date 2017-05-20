@@ -20,16 +20,16 @@ namespace RisIsp.Dal
         Customer IRepository<int, Customer>.Add(Customer item)
         {
             var rv = _db.QueryFirst<Customer>(
-                "INSERT INTO person(firstname, lastname) VALUES(@FirstName, @LastName) RETURNING id, firstname, lastname;", 
-                new { FirstName = item.FirstName, LastName = item.LastName });
+                "INSERT INTO customer(firstname, lastname, numberofid) VALUES(@FirstName, @LastName, @NumberOfId) RETURNING *;", 
+                new { FirstName = item.FirstName, LastName = item.LastName, NumberOfId = item.NumberOfId });
             return rv;
         }
 
         Customer IRepository<int, Customer>.Edit(Customer item)
         {
             var rv = _db.QueryFirst<Customer>(
-                "UPDATE person SET firstname = @FirstName, lastname = @LastName WHERE id = @Id RETURNING id, firstname, lastname;", 
-                new { Id = item.Id, FirstName = item.FirstName, LastName = item.LastName });
+                "UPDATE customer SET firstname = @FirstName, lastname = @LastName, numberofid = @NumberOfId WHERE id = @Id RETURNING *;", 
+                new { Id = item.Id, FirstName = item.FirstName, LastName = item.LastName, NumberOfId = item.NumberOfId });
             return rv;
         }
 
@@ -48,7 +48,7 @@ namespace RisIsp.Dal
 
         Customer IRepository<int, Customer>.Remove(int id)
         {
-            var rv = _db.QueryFirst<Customer>("DELETE FROM customer WHERE id = @Id RETURNING id, firstname, lastname;",
+            var rv = _db.QueryFirst<Customer>("DELETE FROM customer WHERE id = @Id RETURNING *;",
                 new { Id = id });
             return rv;
         }

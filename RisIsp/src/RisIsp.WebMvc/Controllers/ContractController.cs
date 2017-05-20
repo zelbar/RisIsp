@@ -52,6 +52,23 @@ namespace RisIsp.WebMvc.Controllers
             return View(model);
         }
 
+        // GET: /Contract/Create
+        [HttpGet]
+        public IActionResult Create()
+        {
+            var model = getContractEditViewModel(null);
+            return View(model);
+        }
+
+        // POST: /Contract/Create
+        [HttpPost]
+        public IActionResult Create(ContractEditorViewModel request)
+        {
+            var contract = request.Contract;
+            var rv = _contractServices.Create(contract);
+            return RedirectToAction("Edit", new { Id = rv.Id });
+        }
+
         // GET: /Contract/Edit/1
         [HttpGet]
         public IActionResult Edit(int id)
@@ -62,7 +79,7 @@ namespace RisIsp.WebMvc.Controllers
 
         // POST: /Contract/Edit/1
         [HttpPost]
-        public IActionResult Edit(ContractEditViewModel request)
+        public IActionResult Edit(ContractEditorViewModel request)
         {
             var contract = request.Contract;
             _contractServices.Update(contract);
@@ -86,15 +103,23 @@ namespace RisIsp.WebMvc.Controllers
             return RedirectToAction("Index");
         }
 
-        private ContractEditViewModel getContractEditViewModel(int id)
+        private ContractEditorViewModel getContractEditViewModel(int? id)
         {
-            return new ContractEditViewModel()
+            Contract newContract = null;
+            if (id.HasValue == false)
             {
-                Addresses = _addressServices.GetAllAddresses(),
+                newContract = new Contract()
+                {
+                    ServicePackages = new List<ServicePackage>()
+                };
+            }
+            return new ContractEditorViewModel()
+            {
+                StreetNames = _addressServices.GetStreetNames(),
                 AreaCodes = _addressServices.GetAreaCodes(),
                 Customers = _customerServices.GetAll(),
-                Contract = _contractServices.GetById(id),
-                NumberOfContracts = _contractServices.GetNumberOfContracts(),
+                Contract = id.HasValue ? _contractServices.GetById(id.Value) : newContract,
+                ContractIds = _contractServices.GetContractIds().ToList(),
                 Services = _serviceServices.GetAllServices(),
                 ServicePackages = _serviceServices.GetAllServicePackages()
             };

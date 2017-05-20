@@ -23,6 +23,12 @@ namespace RisIsp.Dal
             return cnt;
         }
 
+        public IEnumerable<int> GetContractIds()
+        {
+            var rv = _db.Query<int>("SELECT id FROM contract ORDER BY id ASC;");
+            return rv;
+        }
+
         Contract IRepository<int, Contract>.Add(Contract item)
         {
             var rv = _db.QueryFirst<Contract>(
@@ -35,7 +41,7 @@ namespace RisIsp.Dal
         {
             var rv = _db.QueryFirst<Contract>(
                 "UPDATE contract SET addressid = @AddressId, customerid = @CustomerId, signdate = @SignDate WHERE id = @Id RETURNING *;",
-                new { AddressId = item.AddressId, SignDate = item.SignDate, CustomerId = item.CustomerId });
+                new { AddressId = item.AddressId, SignDate = item.SignDate, CustomerId = item.CustomerId, Id = item.Id });
             return rv;
         }
 

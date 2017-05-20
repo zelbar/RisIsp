@@ -30,8 +30,8 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Contract" asp-action="Index">Contracts</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Naslovnica</a></li>
+                    <li><a asp-area="" asp-controller="Contract" asp-action="Index">Ugovori</a></li>
                 </ul>
             </div>
         </div>
@@ -39,10 +39,10 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; 2017 - ISP</p>
-        </footer>
     </div>
+    <footer class="container clearfix">
+        <p>&copy; 2017 - ISP</p>
+    </footer>
 
     <environment names="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>

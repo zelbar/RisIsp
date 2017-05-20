@@ -39,6 +39,12 @@ namespace RisIsp.Bll
             return cnt;
         }
 
+        public IEnumerable<int> GetContractIds()
+        {
+            var rv = _contractRepository.GetContractIds();
+            return rv;
+        }
+
         public IEnumerable<Bll.Models.Contract> GetAll()
         {
             var contracts = _contractRepository.FetchAll();
@@ -70,6 +76,37 @@ namespace RisIsp.Bll
             return contract;
         }
 
+        public Bll.Models.Contract Create(Bll.Models.Contract contract)
+        {
+            var dalAddress = new CoreLib.Dto.Address()
+            {
+                AreaCode = contract.Address.AreaCode,
+                StreetName = contract.Address.StreetName,
+                StreetNumber = contract.Address.StreetNumber
+            };
+            var addressId = _addressRepository.Add(dalAddress).Id;
+
+            var dalCustomer = new CoreLib.Dto.Customer()
+            {
+                FirstName = contract.Customer.FirstName,
+                LastName = contract.Customer.LastName,
+                NumberOfId = contract.Customer.NumberOfId
+            };
+            var customerId = _customerRepository.Add(dalCustomer).Id;
+
+            var dalContract = new CoreLib.Dto.Contract()
+            {
+                AddressId = addressId,
+                CustomerId = customerId,
+                SignDate = contract.SignDate
+            };
+            var rv = _contractRepository.Add(dalContract);
+
+            return new Models.Contract(rv, dalAddress, dalCustomer, 
+                _servicePackageRepository.FetchByContractId(rv.Id), 
+                _serviceRepository.FetchAll());
+        }
+
         public Bll.Models.Contract Update(Bll.Models.Contract contract)
         {
             var dalContract = new CoreLib.Dto.Contract()
@@ -94,7 +131,8 @@ namespace RisIsp.Bll
             {
                 Id = contract.Customer.Id,
                 FirstName = contract.Customer.FirstName,
-                LastName = contract.Customer.LastName
+                LastName = contract.Customer.LastName,
+                NumberOfId = contract.Customer.NumberOfId
             };
             _customerRepository.Edit(dalCustomer);
 

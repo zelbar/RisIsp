@@ -1,4 +1,4 @@
-﻿@model RisIsp.WebMvc.ViewModels.ContractEditViewModel
+﻿@model RisIsp.WebMvc.ViewModels.ContractEditorViewModel
 
 @{ 
     ViewBag.Title = "Uredi ugovor";
@@ -9,14 +9,19 @@
     <div class="page-header">
 
         <ul class="pagination">
-            <li @if (Model.Contract.Id == 1) { <text> class="disabled" </text>    }>
-                <a asp-action="Edit" asp-route-id="@(Model.Contract.Id - 1)">
+            <li @if (Model.Contract.Id == Model.ContractIds.Min()) { <text> class="disabled" </text>    }>
+                @{ 
+                    var previousIdIndex = Model.ContractIds.IndexOf(Model.Contract.Id) - 1;
+                    var previousId = Model.ContractIds.ElementAtOrDefault(previousIdIndex);
+                }
+                <a asp-action="Edit" asp-route-id="@previousId">
                     <span class="glyphicon glyphicon-arrow-left"></span>
                     Prethodni
                 </a>
             </li>
-            @for (int id = 1; id <= Model.NumberOfContracts; ++id)
+            @for(int i = 0; i < Model.ContractIds.Count(); ++i)
             {
+                var id = Model.ContractIds.ElementAt(i);
                 if (id == Model.Contract.Id)
                 {
                     <li class="active"><a href="#">@id</a></li>
@@ -29,8 +34,12 @@
                 }
 
             }
-            <li @if (Model.Contract.Id == Model.NumberOfContracts) { <text> class="disabled" </text>    }>
-                <a asp-action="Edit" asp-route-id="@(Model.Contract.Id + 1)">
+            <li @if (Model.Contract.Id == Model.ContractIds.Max()) { <text> class="disabled" </text>    }>
+                @{ 
+                    var nextIdIndex = Model.ContractIds.IndexOf(Model.Contract.Id) + 1;
+                    var nextId = Model.ContractIds.ElementAtOrDefault(nextIdIndex);
+                }
+                <a asp-action="Edit" asp-route-id="@nextId">
                     Sljedeći
                     <span class="glyphicon glyphicon-arrow-right"></span>
                 </a>
@@ -52,94 +61,12 @@
         </div>
         <h2>@ViewBag.Title <strong>@Model.Contract.Id</strong></h2>
 
-        <div class="">
-            <fieldset class="col-md-4">
-                <legend>Vlasnik priključka</legend>
-
-                <input type="hidden" asp-for="Contract.Customer.Id" />
-                <div>
-                    <label asp-for="Contract.Customer.FirstName" class="control-label"></label>
-                    <input asp-for="Contract.Customer.FirstName" class="form-control" />
-                </div>
-
-                <div>
-                    <label asp-for="Contract.Customer.LastName" class="control-label"></label>
-                    <input asp-for="Contract.Customer.LastName" class="form-control" />
-                </div>
-            </fieldset>
-            <fieldset class="col-md-8">
-                <legend>Adresa priključka usluge</legend>
-
-                <input type="hidden" asp-for="Contract.Address.Id" />
-                <div class="col-sm-4">
-                    @{
-                        var areaCodesSelectList = new SelectList(Model.AreaCodes);
-                    }
-                    <label asp-for="Contract.Address.AreaCode" class="control-label"></label>
-                    <select asp-for="Contract.Address.AreaCode" asp-items="@areaCodesSelectList" class="form-control"></select>
-                </div>
-
-                <div class="col-sm-6">
-                    @{
-                        var addressesSelectList = new SelectList(Model.Addresses.Select(x => x.StreetName));
-                    }
-                    <label asp-for="Contract.Address.StreetName" class="control-label"></label>
-                    <select asp-for="Contract.Address.StreetName" asp-items="addressesSelectList" class="form-control"></select>
-                </div>
-
-                <div class="col-sm-2">
-                    <label asp-for="Contract.Address.StreetNumber" class="control-label"></label>
-                    <input asp-for="Contract.Address.StreetNumber" class="form-control" />
-                </div>
-
-                <div class="col-sm-12">
-                    <label class="control-label">Datum sklapanja ugovora</label>
-                    <input type="date" asp-for="Contract.SignDate" class="form-control" />
-                </div>
-            </fieldset>
-        </div>
-
-        <fieldset class="col-xs-12">
-        <legend>Usluge i paketi</legend>
-
-        <table class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <td>
-                        Vrsta usluge
-                    </td>
-                    <td>
-                        Paket usluge
-                    </td>
-                    <!--
-                    <td>
-                        Mjesečna cijena paketa
-                    </td>
-                    -->
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var servicePackage in Model.Contract.ServicePackages)
-                {
-                    <tr>
-                        <td>
-                            @servicePackage.Service.Category
-                        </td>
-                        <td>
-                            @{
-                                var servicePackagesSelectList = new SelectList(Model.ServicePackages.Where(x => x.Service.Id == servicePackage.Service.Id), null, "NameAndMonthlyPrice");
-                            }
-                            <select asp-items="@servicePackagesSelectList" class="form-control"></select>
-                        </td>
-                        <!--<td>
-
-                        </td>
-                        -->
-                    </tr>
-
-                }
-            </tbody>
-        </table>
-
-    </fieldset>
+        @Html.Partial("_Editor", Model)
 </form>
+
+@section scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/additional-methods.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

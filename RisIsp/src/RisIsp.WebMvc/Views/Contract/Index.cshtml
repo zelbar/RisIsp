@@ -4,26 +4,34 @@
     ViewBag.Title = "Ugovori";
 }
 
-<h2>@ViewBag.Title</h2>
+<div class="page-header">
+    <div class="pull-right">
+        <a asp-action="Create" class="btn btn-success">
+            <span class="glyphicon glyphicon-plus"></span> 
+            Novi ugovor
+        </a>
+    </div>
+    <h2>@ViewBag.Title</h2>
+</div>
 
 <table class="table table-bordered">
     <thead>
         <tr>
-            <td>
+            <th>
                 Id
-            </td>
-            <td>
+            </th>
+            <th>
                 Datum potpisivanja
-            </td>
-            <td>
+            </th>
+            <th>
                 Korisnik
-            </td>
-            <td>
+            </th>
+            <th>
                 Adresa
-            </td>
-            <td>
+            </th>
+            <th>
 
-            </td>
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -43,9 +51,13 @@
                     @contract.Address.FullAddress
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@contract.Id" class="btn btn-default">
-                        <span class="glyphicon glyphicon-edit"></span> 
+                    <a asp-action="Edit" asp-route-id="@contract.Id" class="text-info">
+                        <span class="glyphicon glyphicon-edit"></span>
                         Uredi
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@contract.Id" class="text-danger">
+                        <span class="glyphicon glyphicon-remove"></span> 
+                        Obriši
                     </a>
                 </td>
             </tr>

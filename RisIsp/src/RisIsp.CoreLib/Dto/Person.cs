@@ -12,5 +12,7 @@ namespace RisIsp.CoreLib.Dto
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
+
+        public string NumberOfId { get; set; }
     }
 }

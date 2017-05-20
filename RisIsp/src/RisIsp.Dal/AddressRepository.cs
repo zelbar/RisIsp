@@ -23,6 +23,12 @@ namespace RisIsp.Dal
             return rv;
         }
 
+        public IEnumerable<string> GetStreetNames()
+        {
+            var rv = _db.Query<string>("SELECT DISTINCT streetname FROM address;");
+            return rv;
+        }
+
         Address IRepository<int, Address>.Add(Address item)
         {
             var rv = _db.QueryFirst<Address>(
@@ -35,7 +41,7 @@ namespace RisIsp.Dal
         {
             var rv = _db.QueryFirst<Address>(
                 "UPDATE address SET areacode = @AreaCode, streetname = @StreetName, streetnumber = @StreetNumber WHERE id = @Id RETURNING *;",
-                new { item.AreaCode, item.StreetName, item.StreetNumber });
+                new { item.AreaCode, item.StreetName, item.StreetNumber, Id = item.Id });
             return rv;
         }
 

@@ -1,0 +1,113 @@
+﻿@model RisIsp.WebMvc.ViewModels.ContractEditorViewModel
+
+
+    <div class="">
+        <fieldset class="col-md-4">
+            <legend>Vlasnik priključka</legend>
+
+            <input type="hidden" asp-for="Contract.Customer.Id" />
+            <div>
+                <label asp-for="Contract.Customer.FirstName" class="control-label"></label>
+                <input asp-for="Contract.Customer.FirstName" class="form-control" />
+                <span asp-validation-for="Contract.Customer.FirstName" class="text-danger"></span>
+            </div>
+
+            <div>
+                <label asp-for="Contract.Customer.LastName" class="control-label"></label>
+                <input asp-for="Contract.Customer.LastName" class="form-control" />
+                <span asp-validation-for="Contract.Customer.LastName" class="text-danger"></span>
+            </div>
+
+            <div>
+                <label asp-for="Contract.Customer.NumberOfId" class="control-label"></label>
+                <input asp-for="Contract.Customer.NumberOfId" class="form-control" />
+                <span asp-validation-for="Contract.Customer.NumberOfId" class="text-danger"></span>
+            </div>
+        </fieldset>
+        <fieldset class="col-md-8">
+            <legend>Adresa priključka usluge</legend>
+
+            <input type="hidden" asp-for="Contract.Address.Id" />
+            <div class="col-sm-4">
+                @{
+                    var areaCodesSelectList = new SelectList(Model.AreaCodes);
+                }
+                <label asp-for="Contract.Address.AreaCode" class="control-label"></label>
+                <select asp-for="Contract.Address.AreaCode" asp-items="@areaCodesSelectList" class="form-control"></select>
+            </div>
+
+            <div class="col-sm-6">
+                @{
+                    var addressesSelectList = new SelectList(Model.StreetNames);
+                }
+                <label asp-for="Contract.Address.StreetName" class="control-label"></label>
+                <input asp-for="Contract.Address.StreetName" list="streetNames" class="form-control" />
+                <datalist id="streetNames">
+                    @foreach(var streetname in Model.StreetNames)
+                    {
+                        <text>
+                            <option value="@streetname"></option>
+                        </text>
+
+                    }
+                </datalist>
+                <span asp-validation-for="Contract.Address.StreetName" class="text-danger"></span>
+            </div>
+
+            <div class="col-sm-2">
+                <label asp-for="Contract.Address.StreetNumber" class="control-label"></label>
+                <input asp-for="Contract.Address.StreetNumber" class="form-control" />
+                <span asp-validation-for="Contract.Address.StreetNumber" class="text-danger"></span>
+            </div>
+
+            <div class="col-sm-12">
+                <label class="control-label">Datum sklapanja ugovora</label>
+                <input type="date" asp-for="Contract.SignDate" class="form-control" />
+                <span asp-validation-for="Contract.SignDate" class="text-danger"></span>
+            </div>
+        </fieldset>
+    </div>
+
+    <fieldset class="col-xs-12">
+        <legend>Usluge i paketi</legend>
+
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <td>
+                        Vrsta usluge
+                    </td>
+                    <td>
+                        Paket usluge
+                    </td>
+                    <!--
+                    <td>
+                        Mjesečna cijena paketa
+                    </td>
+                    -->
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var servicePackage in Model.Contract.ServicePackages)
+                {
+                    <tr>
+                        <td>
+                            @servicePackage.Service.Category
+                        </td>
+                        <td>
+                            @{
+                                var servicePackagesSelectList = new SelectList(Model.ServicePackages.Where(x => x.Service.Id == servicePackage.Service.Id), null, "NameAndMonthlyPrice");
+                            }
+                            <select asp-items="@servicePackagesSelectList" class="form-control"></select>
+                        </td>
+                        <!--<td>
+
+                        </td>
+                        -->
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+
+    </fieldset>

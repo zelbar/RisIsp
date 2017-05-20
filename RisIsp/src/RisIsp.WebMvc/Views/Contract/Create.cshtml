@@ -1,0 +1,31 @@
+﻿@model RisIsp.WebMvc.ViewModels.ContractEditorViewModel
+
+@{ 
+    ViewBag.Title = "Novi ugovor";
+}
+
+<form asp-action="Create" method="post">
+    <div class="page-header">
+        <div class="btn-group pull-right">
+            <button type="submit" class="btn btn-primary">
+                <span class="glyphicon glyphicon-floppy-save"></span>
+                Pohrani
+            </button>
+
+            <a class="btn btn-danger" asp-action="Index">
+                <span class="glyphicon glyphicon-remove"></span>
+                Odustani
+            </a>
+        </div>
+    </div>
+    <h2>@ViewBag.Title</h2>
+
+    @Html.Partial("_Editor", Model)
+</form>
+
+@section scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/additional-methods.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

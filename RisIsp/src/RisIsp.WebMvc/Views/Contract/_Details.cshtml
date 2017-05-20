@@ -4,13 +4,19 @@
     <tr>
         <th>Vlasnik priključka</th>
         <td>
-            @Model.Customer.FormalFullName
+            @Model.Customer.FormalFullName (@Model.Customer.NumberOfId)
         </td>
     </tr>
     <tr>
         <th>Adresa priključka</th>
         <td>
             @Model.Address.FullAddress
+        </td>
+    </tr>
+    <tr>
+        <th>Datum sklapanja ugovora</th>
+        <td>
+            @Model.SignDate
         </td>
     </tr>
     <tr>

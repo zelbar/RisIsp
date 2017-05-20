@@ -18,6 +18,12 @@ namespace RisIsp.Bll.Models
         [Display(Name = "Prezime")]
         public string LastName { get; set; }
 
+        [Required]
+        [Display(Name = "Broj osobne iskaznice")]
+        [MaxLength(10)]
+        [MinLength(10)]
+        public string NumberOfId { get; set; }
+
         public string FullName
         {
             get
